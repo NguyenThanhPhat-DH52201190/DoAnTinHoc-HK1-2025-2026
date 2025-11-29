@@ -15,5 +15,8 @@ namespace DoAnTinHoc_DuLieu
         public DateTime Departure_Date { get;set;}
         public string Service { get; set; }
         public int Satisfaction { get; set; }
+        
     }
+
+    
 }
