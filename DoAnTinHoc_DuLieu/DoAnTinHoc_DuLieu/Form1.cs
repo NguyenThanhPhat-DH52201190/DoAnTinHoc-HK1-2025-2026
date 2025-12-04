@@ -46,10 +46,7 @@ namespace DoAnTinHoc_DuLieu
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-        }
-
+       
         private void btnAddform1_Click(object sender, EventArgs e)
         {
             var newbn = new FormAdd();
@@ -167,8 +164,24 @@ namespace DoAnTinHoc_DuLieu
 
         private void btn_Node2con_Click(object sender, EventArgs e)
         {
-            int demnode2con = tree.Lay_Node2con();
-            MessageBox.Show("Số node có 2 con là: " + demnode2con);
+            List<BenhNhan> list = new List<BenhNhan>();
+            Lay_Node2con(tree.Root, list);
+
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = list;
+        }
+        public void Lay_Node2con(NodeAVL root, List<BenhNhan> list)
+        {
+            if (root == null) return;
+
+            // node có đúng 2 con
+            if (root.Trai != null && root.Trai != null)
+            {
+                list.Add(root.Data);
+            }
+
+            Lay_Node2con(root.Trai, list);
+            Lay_Node2con(root.Phai, list);
         }
 
         private void XayCayTinhKhietVaHienThi()
@@ -202,6 +215,21 @@ namespace DoAnTinHoc_DuLieu
             .Select(x => new { Age = x.Age, SoLuongTrung = x.Count })
             .ToList();
             dataGridViewDemTrung.DataSource = thongKe;
+            if (thongKe.Count > 0)
+            {
+                var maxItem = thongKe.OrderByDescending(x => x.SoLuongTrung).First();
+
+                MessageBox.Show(
+                    $"Tuổi trùng nhiều nhất: {maxItem.Age}\nSố lượng: {maxItem.SoLuongTrung}",
+                    "Thống kê",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            else
+            {
+                MessageBox.Show("Không có node nào bị trùng.", "Thống kê");
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -218,9 +246,26 @@ namespace DoAnTinHoc_DuLieu
 
         private void btn_Node1Con_Click(object sender, EventArgs e)
         {
-            int demnode1con = tree.Lay_Node1Con();
-            MessageBox.Show("Số node có 2 con là: " + demnode1con);
+            List<BenhNhan> list = new List<BenhNhan>();
+            Lay_Node1Con(tree.Root, list);
+
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = list;
         }
+        public void Lay_Node1Con(NodeAVL root, List<BenhNhan> list)
+        {
+            if (root == null) return;
+
+            if ((root.Trai == null && root.Phai != null) ||
+                (root.Trai != null && root.Phai == null))
+            {
+                list.Add(root.Data);
+            }
+
+            Lay_Node1Con(root.Trai, list);
+            Lay_Node1Con(root.Phai, list);
+        }
+
 
         private void btn_DemNodeTrai_Click(object sender, EventArgs e)
         {
@@ -236,16 +281,26 @@ namespace DoAnTinHoc_DuLieu
 
         private void btnDem_NodeTang_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(txtTang.Text.Trim(), out int tang) || tang < 0)
+            if (!int.TryParse(txtTang.Text.Trim(), out int level) || level < 1)
             {
-                MessageBox.Show("Vui lòng nhập số tầng ≥ 0");
+                MessageBox.Show("Vui lòng nhập số tầng hợp lệ!");
                 return;
             }
 
-            int ketQua = tree.Lay_SoNode_Tang(tang);
+            List<BenhNhan> ds = tree.GetNodesAtSpecificLevel(level);
 
-            MessageBox.Show($"Tầng {tang} có {ketQua} node.");
-                            
+            if (ds.Count == 0)
+            {
+                MessageBox.Show($"Tầng {level} không có node nào!");
+                return;
+            }
+
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = ds;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            MessageBox.Show($"Đã hiển thị {ds.Count} node ở tầng {level}!");
+
         }
     }
 }

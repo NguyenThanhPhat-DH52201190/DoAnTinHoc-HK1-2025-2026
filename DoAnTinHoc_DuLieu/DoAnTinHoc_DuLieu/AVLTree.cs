@@ -207,47 +207,6 @@ namespace DoAnTinHoc_DuLieu
             return DemSoNode (Root);
         }
 
-        public int DemNodeHaiCon(NodeAVL node)
-        {
-            if (node == null)
-                return 0;
-
-            int dem = 0;
-
-            
-            if (node.Trai != null && node.Phai != null)
-                dem = 1;
-
-            
-            return dem + DemNodeHaiCon(node.Trai) + DemNodeHaiCon(node.Phai);
-        }
-
-        public int Lay_Node2con()
-        {
-            return DemNodeHaiCon(Root);
-        }
-
-        public int DemNodeMotCon(NodeAVL node)
-        {
-            if (node == null)
-                return 0;
-
-            int dem = 0;
-
-           
-            if ((node.Trai == null && node.Phai != null) ||
-                (node.Trai != null && node.Phai == null))
-            {
-                dem = 1;
-            }
-
-            return dem + DemNodeMotCon(node.Trai) + DemNodeMotCon(node.Phai);
-        }
-        public int Lay_Node1Con()
-        {
-            return DemNodeMotCon(Root);
-        }
-
         public int DemNodeTaiTang(NodeAVL node, int tang)
         {
             if (node == null)
@@ -299,9 +258,27 @@ namespace DoAnTinHoc_DuLieu
             return DemNodeBenPhai(Root.Phai);
         }
 
+        private void GetNodesAtLevelRecursive(NodeAVL node, int currentLevel, int targetLevel, List<BenhNhan> ds)
+        {
+            if (node == null) return;
 
+            if (currentLevel == targetLevel)
+            {
+                ds.Add(node.Data);
+            }
+            else
+            {
+                GetNodesAtLevelRecursive(node.Trai, currentLevel + 1, targetLevel, ds);
+                GetNodesAtLevelRecursive(node.Phai, currentLevel + 1, targetLevel, ds);
+            }
+        }
 
-
+        public List<BenhNhan> GetNodesAtSpecificLevel(int targetLevel)
+        {
+            List<BenhNhan> ds = new List<BenhNhan>();
+            GetNodesAtLevelRecursive(Root, 1, targetLevel, ds);
+            return ds;
+        }
 
     }
 }

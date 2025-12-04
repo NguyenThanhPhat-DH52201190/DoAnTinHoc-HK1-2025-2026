@@ -168,7 +168,7 @@
             this.btn_Node2con.Name = "btn_Node2con";
             this.btn_Node2con.Size = new System.Drawing.Size(139, 42);
             this.btn_Node2con.TabIndex = 12;
-            this.btn_Node2con.Text = "Đếm số Node 2 con";
+            this.btn_Node2con.Text = "Node 2 con";
             this.btn_Node2con.UseVisualStyleBackColor = true;
             this.btn_Node2con.Click += new System.EventHandler(this.btn_Node2con_Click);
             // 
@@ -208,7 +208,7 @@
             this.btn_Node1Con.Name = "btn_Node1Con";
             this.btn_Node1Con.Size = new System.Drawing.Size(139, 42);
             this.btn_Node1Con.TabIndex = 16;
-            this.btn_Node1Con.Text = "Đếm số Node 1 con";
+            this.btn_Node1Con.Text = "Node 1 con";
             this.btn_Node1Con.UseVisualStyleBackColor = true;
             this.btn_Node1Con.Click += new System.EventHandler(this.btn_Node1Con_Click);
             // 
@@ -276,7 +276,6 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTrung)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDemTrung)).EndInit();
