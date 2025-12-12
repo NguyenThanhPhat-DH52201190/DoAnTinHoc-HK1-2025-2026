@@ -302,5 +302,42 @@ namespace DoAnTinHoc_DuLieu
             MessageBox.Show($"Đã hiển thị {ds.Count} node ở tầng {level}!");
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dsBN == null || dsBN.Count == 0)
+            {
+                MessageBox.Show("Chưa có dữ liệu! Vui lòng đọc file hoặc thêm dữ liệu trước.");
+                return;
+            }
+
+            // Nếu cây tinh khiết chưa được xây thì tự xây
+            if (pureTree == null || pureTree.Root == null)
+            {
+                pureTree = new PureTree();
+
+                foreach (var bn in dsBN)
+                {
+                    pureTree.Insert(bn);
+                }
+            }
+
+            // Tổng số node của cây tinh khiết
+            List<BenhNhan> dsOrder = new List<BenhNhan>();
+            pureTree.InOrder(pureTree.Root, dsOrder);
+            int tongNode = dsOrder.Count;
+
+            // Tổng số node bị trùng
+            int tongTrung = pureTree.DanhSachLap.Count;
+
+            // Hiển thị kết quả
+            MessageBox.Show(
+                $"Tổng số node của cây tinh khiết: {tongNode}\n" +
+                $"Tổng số node bị trùng: {tongTrung}",
+                "Thống kê cây tinh khiết",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+        }
     }
 }
